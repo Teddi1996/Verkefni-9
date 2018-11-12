@@ -1,3 +1,11 @@
+/*
+ * TO DO: 
+ * -> Breyta dagsettningum 
+ *  ----> 11. Decembet 1986 --> 1986-12-11 
+ *  Skráð
+ *  Seinast breytt 
+ *  Rennur út
+ */
 // const API_URL = '/example.json?domain=';
 const API_URL = 'https://apis.is/isnic?domain=';
 
@@ -13,6 +21,18 @@ document.addEventListener('DOMContentLoaded', function() {
 const program = (() => {
 	let domains;
 
+	// Fall til að breyta dagsettningum 
+	function formatDate(date) {
+		// 11. December 1986 --> 1986-12-11
+		var newDate = new		
+
+		//if (month.length < 2) month = '0' + month;
+		//if (day.length < 2) day = '0' + day;
+
+		return newDate;
+	}
+
+	// Fall til að birta gögn
 	function displayWebsites(domainsList) {
 		if(domainsList.length === 0) {
 			displayError('Lén er ekki skráð');
@@ -21,6 +41,9 @@ const program = (() => {
 
 		const [{ domain, registered, lastChange, expires, registrantname, email, address, country }] = domainsList;
 		const dl = document.createElement('dl');
+
+		// Breyta dagsettningum 
+		
 
 		// Lén
 		const domainElement = document.createElement('dt');
@@ -37,7 +60,7 @@ const program = (() => {
 		dl.appendChild(registeredElement);
 
 		const registeredValueElement = document.createElement('dd');
-		registeredValueElement.appendChild(document.createTextNode(registered));
+		registeredValueElement.appendChild(document.createTextNode(formatDate(registered)));
 		dl.appendChild(registeredValueElement);
 
 		// Seinasta breyting
@@ -111,7 +134,7 @@ const program = (() => {
 		container.appendChild(dl);
 	}
 
-	//* on error */
+	// Villur
 	function displayError(error) {
 		const container = domains.querySelector('.results');
 		
@@ -123,7 +146,7 @@ const program = (() => {
 	}
 
 
-	//* fetch data
+	// Sækja gögn
 	function fetchData(domain) {
 		fetch(`${API_URL}${domain}`)
 		.then((response) => {
@@ -131,13 +154,13 @@ const program = (() => {
 				return response.json();
 			}
 
-			throw new Error('Villa kom upp');
+			throw new Error('Villa við að sækja gögn');
 		})
 		.then((data) => {
 			displayWebsites(data.results);
 		})
 		.catch((error) => {
-			displayError('villa');
+			displayError('Villa við að sækja gögn');
 			console.error(error);
 		})
 	}
@@ -146,14 +169,11 @@ const program = (() => {
 		e.preventDefault();
 		const input = e.target.querySelector('input');
 
-		// To Do
-		// Höndla tómastreng
-
-		if(input.value === null) {
+		if(input.value === '') {
 			displayError('Leit verður að vera strengur');
+		} else {
+			fetchData(input.value);	
 		}
-
-		fetchData(input.value);
 	}
 
 
