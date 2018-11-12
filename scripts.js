@@ -19,7 +19,7 @@ const program = (() => {
 			return;
 		}
 
-		const [{ domain, registered, lastChange, expires }] = domainsList;
+		const [{ domain, registered, lastChange, expires, registrantname, email, address, country }] = domainsList;
 		const dl = document.createElement('dl');
 
 		// Lén
@@ -28,9 +28,8 @@ const program = (() => {
 		dl.appendChild(domainElement);
 
 		const domainValueElement = document.createElement('dd');
-		domainElement.appendChild(document.createTextNode(domain));
+		domainValueElement.appendChild(document.createTextNode(domain));
 		dl.appendChild(domainValueElement);
-
 
 		// Skráð
 		const registeredElement = document.createElement('dt');
@@ -47,19 +46,61 @@ const program = (() => {
 		dl.appendChild(lastChangeElement);
 
 		const lastChangeValueElement = document.createElement('dd');
-		lastChangeElement.appendChild(document.createTextNode(lastChange));
+		lastChangeValueElement.appendChild(document.createTextNode(lastChange));
 		dl.appendChild(lastChangeValueElement);
 
-
 		// Rennur út
-		const expiresElement = document.createElement('dd');
+		const expiresElement = document.createElement('dt');
 		expiresElement.appendChild(document.createTextNode('Rennur út'));
 		dl.appendChild(expiresElement);
 		
-		const expiresValueElement = document.createElement('dt');
+		const expiresValueElement = document.createElement('dd');
 		expiresValueElement.appendChild(document.createTextNode(expires));
 		dl.appendChild(expiresValueElement);
 
+		// Skráningaraðili
+		if(registrantname !== null && registrantname !== '') {
+	                const registrantnameElement = document.createElement('dt');
+        	        registrantnameElement.appendChild(document.createTextNode('Skráningaraðili'));
+                	dl.appendChild(registrantnameElement);
+
+                	const registrantnameValueElement = document.createElement('dd');
+                	registrantnameValueElement.appendChild(document.createTextNode(registrantname));
+                	dl.appendChild(registrantnameValueElement);
+		}
+
+		// Netfang
+		if(email !== null && email !== '') {
+			const emailElement = document.createElement('dt');
+			emailElement.appendChild(document.createTextNode('Netfang'));
+			dl.appendChild(emailElement);
+
+			const emailValueElement = document.createElement('dd');
+			emailValueElement.appendChild(document.createTextNode(email));
+			dl.appendChild(emailValueElement);
+		}
+
+		// Heimilisfang
+		if(address !== null && address !== '') {
+			const addressElement = document.createElement('dt');
+			addressElement.appendChild(document.createTextNode('Heimilisfang'));
+			dl.appendChild(addressElement);
+
+			const addressValueElement = document.createElement('dd');
+			addressValueElement.appendChild(document.createTextNode(address));
+			dl.appendChild(addressValueElement);
+		}
+
+		// Land
+		if(country !== null && address !== '') {
+			const countryElement = document.createElement('dt');
+			countryElement.appendChild(document.createTextNode('Land'));
+			dl.appendChild(countryElement);
+		
+			const countryValueElement = document.createElement('dd');
+			countryValueElement.appendChild(document.createTextNode(country));
+			dl.appendChild(countryValueElement);
+		}
 
 		const container = domains.querySelector('.results');
 
@@ -108,7 +149,7 @@ const program = (() => {
 		// To Do
 		// Höndla tómastreng
 
-		if(input === "") {
+		if(input.value === null) {
 			displayError('Leit verður að vera strengur');
 		}
 
