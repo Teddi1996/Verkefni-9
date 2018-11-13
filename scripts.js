@@ -9,30 +9,10 @@
 // const API_URL = '/example.json?domain=';
 const API_URL = 'https://apis.is/isnic?domain=';
 
-// Loading
-const fetchStart = new Event('fetchStart', { view: document, bubbles: true, cancelable: false });
-const fetchEnd = new Event('fetchEnd', { view: document, bubbles: true, cancelable: false });
-
-
-document.addEventListener('fetchStart', () => {
-  const dl = document.createElement('dl');
-
-  const loadimg = new Image(200, 200);
-  loadimg.src = 'loading.gif';
-
-  const loadingElement = document.createElement('dt');
-  loadingElement.appendChild(loadimg);
-  dl.appendChild(loadingElement);
-});
-
 document.addEventListener('DOMContentLoaded', () => {
   const domains = document.querySelector('.domains');
 
   	program.init(domains);
-});
-
-document.addEventListener('fetchEnd', () => {
-  console.log('hide');
 });
 
 /**
@@ -198,7 +178,6 @@ const program = (() => {
     }
 
     container.appendChild(dl);
-    document.dispatchEvent(fetchEnd);
   }
 
   // Villur
@@ -238,10 +217,8 @@ const program = (() => {
     e.preventDefault();
     const input = e.target.querySelector('input');
 
-	  document.dispatchEvent(fetchStart);
     if (input.value === '') {
       displayError('Leit verður að vera strengur');
-      document.dispatchEvent(fetchEnd);
     } else {
       fetchData(input.value);
     }
